@@ -2663,6 +2663,7 @@ class ZappaCLI:
         if self.stage_config.get("delete_s3_zip", True):
             #self.zappa.remove_from_s3(self.zip_path, self.s3_bucket_name)
             if self.stage_config.get("slim_handler", False):
+                pass
                 # Need to keep the project zip as the slim handler uses it.
                 #self.zappa.remove_from_s3(self.handler_path, self.s3_bucket_name)
 
