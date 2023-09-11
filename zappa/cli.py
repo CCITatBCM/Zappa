@@ -905,9 +905,9 @@ class ZappaCLI:
                 self.remove_local_zip()
 
         # Remove the project zip from S3.
-        if not source_zip and not docker_image_uri:
-            self.remove_uploaded_zip()
-
+        #if not source_zip and not docker_image_uri:
+        #    self.remove_uploaded_zip()
+        print("not this time")
         self.callback("post")
 
         click.echo(deployment_string)
@@ -1042,6 +1042,7 @@ class ZappaCLI:
         # Remove the uploaded zip from S3, because it is now registered..
         #if not source_zip and not no_upload and not docker_image_uri:
         #    self.remove_uploaded_zip()
+        print("not removing file here.")
 
         # Update the configuration, in case there are changes.
         self.lambda_arn = self.zappa.update_lambda_configuration(
@@ -2657,13 +2658,13 @@ class ZappaCLI:
         """
         Remove the local and S3 zip file after uploading and updating.
         """
-
+        print("Removing from s3?")
         # Remove the uploaded zip from S3, because it is now registered..
         if self.stage_config.get("delete_s3_zip", True):
-            self.zappa.remove_from_s3(self.zip_path, self.s3_bucket_name)
+            #self.zappa.remove_from_s3(self.zip_path, self.s3_bucket_name)
             if self.stage_config.get("slim_handler", False):
                 # Need to keep the project zip as the slim handler uses it.
-                self.zappa.remove_from_s3(self.handler_path, self.s3_bucket_name)
+                #self.zappa.remove_from_s3(self.handler_path, self.s3_bucket_name)
 
     def on_exit(self):
         """
