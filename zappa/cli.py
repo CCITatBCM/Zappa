@@ -1040,8 +1040,8 @@ class ZappaCLI:
                 self.lambda_arn = self.zappa.update_lambda_function(**kwargs)
 
         # Remove the uploaded zip from S3, because it is now registered..
-        if not source_zip and not no_upload and not docker_image_uri:
-            self.remove_uploaded_zip()
+        #if not source_zip and not no_upload and not docker_image_uri:
+        #    self.remove_uploaded_zip()
 
         # Update the configuration, in case there are changes.
         self.lambda_arn = self.zappa.update_lambda_configuration(
