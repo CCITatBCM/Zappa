@@ -3,6 +3,7 @@ Zappa core library. You may also want to look at `cli.py` and `util.py`.
 """
 
 import getpass
+import glob
 import hashlib
 import json
 import logging
