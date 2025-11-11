@@ -684,7 +684,7 @@ class Zappa:
                 # https://github.com/zappa/Zappa/issues/1269
                 for path in glob.glob(os.path.join(temp_project_path, glob_path), recursive=True):
                     try:
-                        if str(path).startswith(temp_project_path):
+                        if str(path).startswith(str(temp_project_path)):
                             os.remove(path)
                     except OSError:  # is a directory
                         shutil.rmtree(path)
@@ -788,12 +788,10 @@ class Zappa:
             # https://github.com/zappa/Zappa/issues/1269
             for path in glob.glob(os.path.join(temp_project_path, glob_path), recursive=True):
                 try:
-                    if str(path).startswith(temp_project_path):
+                    if str(path).startswith(str(temp_project_path)):
                         os.remove(path)
                 except OSError:  # is a directory
                     shutil.rmtree(path)
-                else:
-                    logger.warning(f"WARNING - missing expected: {path.resolve()}")
 
         # Then archive it all up..
         if archive_format == "zip":
@@ -2054,6 +2052,7 @@ class Zappa:
         Create the API Gateway for this Zappa deployment.
         Returns the new RestAPI CF resource (v1) or Api CF resource (v2).
         """
+        assert self.boto_session is not None, "boto_session must be initialized"
 
         if apigateway_version == "v2":
             return self.create_api_gateway_v2_routes(
