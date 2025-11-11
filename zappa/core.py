@@ -679,11 +679,13 @@ class Zappa:
             else:
                 copytree(cwd, temp_project_path, metadata=False, symlinks=False)
             for glob_path in exclude_glob:
-                exclude_glob_path = temp_project_path / glob_path
-                for path in exclude_glob_path.glob("*"):
-                    if path.exists() and path.is_file():
-                        path.unlink()
-                    elif path.exists() and path.is_dir():
+                # Use `recursive` to match paths deep in the directory tree
+                # https://github.com/zappa/Zappa/issues/1269
+                for path in glob.glob(os.path.join(temp_project_path, glob_path), recursive=True):
+                    try:
+                        if str(path).startswith(temp_project_path):
+                            os.remove(path)
+                    except OSError:  # is a directory
                         shutil.rmtree(path)
 
         # If a handler_file is supplied, copy that to the root of the package,
@@ -781,11 +783,13 @@ class Zappa:
 
         # Cleanup
         for glob_path in exclude_glob:
-            exclude_glob_path = temp_project_path / glob_path
-            for path in exclude_glob_path.glob("*"):
-                if path.exists() and path.is_file():
-                    path.unlink()
-                elif path.exists() and path.is_dir():
+            # Use `recursive` to match paths deep in the directory tree
+            # https://github.com/zappa/Zappa/issues/1269
+            for path in glob.glob(os.path.join(temp_project_path, glob_path), recursive=True):
+                try:
+                    if str(path).startswith(temp_project_path):
+                        os.remove(path)
+                except OSError:  # is a directory
                     shutil.rmtree(path)
                 else:
                     logger.warning(f"WARNING - missing expected: {path.resolve()}")
